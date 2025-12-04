@@ -1,4 +1,11 @@
-collections:
+media:
+  - name: media
+    label: "الوسائط"
+    input: "content/media"
+    output: "/media"
+    extensions: [jpg, jpeg, png, mp4]
+    
+    content::
   - name: series
     label: المسلسلات والأنمي
     # هنا، type: collection يتم تعريفه في سياق أعلى (تحت collections)

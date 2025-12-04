@@ -1,28 +1,41 @@
-media:
-  input: public/assets
-  output: /assets
-  categories: [ "image" ]
-content:
-  - name: posts
-    label: Posts
-    type: collection
-    path: _posts
-    view:
-      fields: [ coverImage, title, date ]
+collect:
+  - name: series
+    label: المسلسلات والأنمي
+    path: src/content/series
+    format: json
     fields:
-      - { name: title, label: Title, type: string, required: true }
-      - { name: excerpt, label: Excerpt, type: string }
-      - { name: coverImage, label: Cover image, type: image }
-      - { name: date, label: Date, type: date, options: { time: true, format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" } }
-      - name: author
-        label: Author
-        type: object
-        fields:
-          - { name: name, label: Name, type: string }
-          - { name: picture, label: Picture, type: image }
-      - name: ogImage
-        label: Image (social sharing)
-        type: object
-        fields:
-          - { name: url, label: URL, type: image }
-      - { name: body, label: Body, type: rich-text }
+      - name: title
+        label: عنوان السلسلة
+        type: string
+      - name: slug
+        label: الرابط (Slug)
+        type: string
+
+      # ----------------------------------------------------
+      # 1. قائمة المواسم (المجموعة الخارجية)
+      - name: seasons
+        label: المواسم
+        type: collection # 💡 محاولة استخدام 'collection' بدلاً من 'array' أو 'list'
+        fields: # 💡 محاولة استخدام 'fields' بدلاً من 'items'
+          - name: season_number
+            label: رقم الموسم
+            type: number
+          - name: title
+            label: عنوان الموسم
+            type: string
+
+          # ------------------------------------------------
+          # 2. قائمة الحلقات (المجموعة الداخلية)
+          - name: episodes
+            label: الحلقات
+            type: collection # 💡 استخدام 'collection' لتمثيل قائمة الحلقات
+            fields:
+              - name: episode_number
+                label: رقم الحلقة
+                type: number
+              - name: title
+                label: عنوان الحلقة
+                type: string
+              - name: video_url
+                label: رابط الفيديو
+                type: string

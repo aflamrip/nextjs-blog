@@ -6,56 +6,79 @@ content:
     path: "src/content/series" # مجلد المحتوى
 
     fields:
-  - name: title
-    label: "عنوان الأنمي"
-    type: string
-    required: true
+      # حقول مستوى المسلسل/الأنمي
+      - { name: "title", label: "عنوان السلسلة", type: string }
+      - { name: "slug", label: "الرابط (Slug)", type: string }
+      - { name: "description", label: "الوصف", type: text }
 
-  - name: slug
-    label: "رابط الصفحة (Slug)"
-    type: string
-    required: true
-    # نصيحة: Pages CMS يدعم التوليد التلقائي للرابط من العنوان في بعض الإعدادات
+      # ----------------------------------------------------------------
+      # 1. قائمة المواسم (Nested Array)
+      # نستخدم 'type: object' مع حقول داخلية، ونعتمد على Pages CMS 
+      # لفهم أن هذا الحقل يمثل مصفوفة قابلة للتكرار (Repeatable List).
+      # قد نحتاج إلى إضافة خاصية مثل 'list: true' أو 'repeated: true' 
+      # إذا لم يكن النظام يتعرف عليها تلقائياً.
 
-  - name: image
-    label: "بوستر الأنمي"
-    type: image
+      - name: "genres"
+        label: "تصنيف الأنمي"
+        type: select # 💡 جرب هذه الخاصية للسماح باختيار أكثر من عنصر
+        options:
+          values:
+            - { value: "action", label: "أكشن" }
+            - { value: "comedy", label: "كوميديا" }
+            - { value: "romance", label: "رومانسي" }
+            - { value: "scifi", label: "خيال علمي" }
 
-  - name: description
-    label: "قصة الأنمي"
-    type: rich-text # تحويله لـ rich-text يتيح لك تنسيق النص (B, I, Lists)
-
-  - name: genres
-    label: "تصنيف الأنمي"
-    type: select
-    list: true # هذا ما يجعله اختيار متعدد
-    options:
-      - { value: "action", label: "أكشن" }
-      - { value: "comedy", label: "كوميديا" }
-      - { value: "romance", label: "رومانسي" }
-      - { value: "scifi", label: "خيال علمي" }
-      - { value: "drama", label: "دراما" }
-
-  - name: keywords
-    label: "الكلمات المفتاحية"
-    type: string
-    list: true # سيظهر كقائمة بسيطة (Tags) بدلاً من Object معقد
-
-  - name: seasons
-    label: "المواسم"
-    type: object
-    list: true
-    fields:
-      - { name: "season_number", label: "رقم الموسم", type: number }
-      - { name: "season_title", label: "عنوان الموسم", type: string }
-      
-      - name: "episodes"
-        label: "قائمة الحلقات"
+            # حقل قائمة التصنيفات/الأنواع (لحل مشكلة multiple: true)
+      - name: "genres"
+        label: "الأنواع والتصنيفات"
         type: object
-        list: true
+        list: true # 🌟 نجعل الحقل قابلاً للتكرار (مصفوفة)
+
         fields:
-          - { name: "episode_number", label: "رقم الحلقة", type: number }
-          - { name: "episode_title", label: "عنوان الحلقة (اختياري)", type: string }
-          - { name: "video_url", label: "رابط المشاهدة", type: string }
-          - { name: "thumbnail", label: "صورة مصغرة للحلقة", type: image }
-          - { name: "duration", label: "مدة الحلقة", type: string }
+          # هذا هو حقل الاختيار المفرد (Select) الذي سيتم تكراره
+          - name: "genre_tag"
+            label: "اختر نوعاً"
+            type: select 
+            options:
+              values:
+                - { value: "action", label: "أكشن" }
+                - { value: "comedy", label: "كوميديا" }
+                - { value: "romance", label: "رومانسي" }
+                - { value: "fantasy", label: "خيال" }
+                # ... إضافة المزيد من الخيارات
+
+            # حقل لإضافة الكلمات المفتاحية
+      - name: "keywords"
+        label: "الكلمات المفتاحية (Keywords)"
+        type: object
+        list: true # 🌟 يجعل هذا الحقل مصفوفة قابلة للتكرار
+
+        fields:
+          # الحقل الذي سيخزن كل كلمة مفتاحية على حدة
+          - { name: "keyword", label: "كلمة مفتاحية", type: string }
+      
+      - name: "seasons"
+        label: "المواسم"
+        type: object # لتمثيل كائن الموسم
+        list: true
+        # 💡 ملاحظة: يجب أن تضيف خاصية تجعل هذا الكائن قابل للتكرار
+        #  (على سبيل المثال، list: true أو max: 0).
+        #  سنفترض أن Pages CMS يتطلب منك ببساطة تعريف الحقول داخله.
+        
+        fields:
+          - { name: "season_number", label: "رقم الموسم", type: number }
+          - { name: "season_title", label: "عنوان الموسم", type: string }
+          
+          # ------------------------------------------------------------
+          # 2. قائمة الحلقات (Nested Array داخل الموسم)
+          - name: "episodes"
+            label: "الحلقات"
+            type: object # لتمثيل كائن الحلقة
+            list: true
+            # 💡 هنا أيضاً نحتاج خاصية القائمة/التكرار (مثل list: true)
+            
+            fields:
+              - { name: "episode_number", label: "رقم الحلقة", type: number }
+              - { name: "episode_title", label: "عنوان الحلقة", type: string }
+              - { name: "video_url", label: "رابط الفيديو", type: string }
+              - { name: "duration", label: "مدة الحلقة", type: string }

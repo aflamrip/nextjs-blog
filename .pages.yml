@@ -5,7 +5,7 @@ content:
     type: collection # أو type: file إذا كنت تستخدم ملف واحد للكل
     path: "src/content/series" # مجلد المحتوى
 
-   fields:
+    fields:
       # حقول مستوى المسلسل/الأنمي
       - { name: "title", label: "عنوان السلسلة", type: string }
       - { name: "slug", label: "الرابط (Slug)", type: string }

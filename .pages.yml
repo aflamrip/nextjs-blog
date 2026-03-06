@@ -1,4 +1,11 @@
-fields:
+content:
+  - name: "series"
+    label: "المسلسلات والأنمي"
+    filename: "src/content/series/[name].json" # اسم الملف سيكون حسب العنوان
+    type: collection # أو type: file إذا كنت تستخدم ملف واحد للكل
+    path: "src/content/series" # مجلد المحتوى
+
+    fields:
   - { name: "title", label: "عنوان الأنمي", type: string, required: true }
   
   # تحسين: إضافة حقل الرابط الدائم (slug) بشكل صحيح

@@ -5,22 +5,30 @@ content:
     type: collection # أو type: file إذا كنت تستخدم ملف واحد للكل
     path: "src/content/series" # مجلد المحتوى
 
-    fields:
-  - { name: "title", label: "عنوان الأنمي", type: string, required: true }
-  
-  # تحسين: إضافة حقل الرابط الدائم (slug) بشكل صحيح
-  - { name: "slug", label: "رابط الصفحة (Slug)", type: string, required: true }
-  
-  # إضافة: صورة الغلاف (مهمة جداً لأي موقع أنمي)
-  - { name: "image", label: "صورة الغلاف", type: image }
+   fields:
+  - name: title
+    label: "عنوان الأنمي"
+    type: string
+    required: true
 
-  - { name: "description", label: "وصف الأنمي", type: text }
+  - name: slug
+    label: "رابط الصفحة (Slug)"
+    type: string
+    required: true
+    # نصيحة: Pages CMS يدعم التوليد التلقائي للرابط من العنوان في بعض الإعدادات
 
-  # تحسين: استخدام النوع 'select' مع خاصية 'list: true' للاختيار المتعدد
-  - name: "genres"
+  - name: image
+    label: "بوستر الأنمي"
+    type: image
+
+  - name: description
+    label: "قصة الأنمي"
+    type: rich-text # تحويله لـ rich-text يتيح لك تنسيق النص (B, I, Lists)
+
+  - name: genres
     label: "تصنيف الأنمي"
     type: select
-    list: true
+    list: true # هذا ما يجعله اختيار متعدد
     options:
       - { value: "action", label: "أكشن" }
       - { value: "comedy", label: "كوميديا" }
@@ -28,14 +36,12 @@ content:
       - { value: "scifi", label: "خيال علمي" }
       - { value: "drama", label: "دراما" }
 
-  # تحسين: الكلمات المفتاحية يفضل أن تكون حقل 'string' مع 'list: true' لتبسيط الإدخال
-  - name: "keywords"
+  - name: keywords
     label: "الكلمات المفتاحية"
     type: string
-    list: true
+    list: true # سيظهر كقائمة بسيطة (Tags) بدلاً من Object معقد
 
-  # هيكلة المواسم والحلقات
-  - name: "seasons"
+  - name: seasons
     label: "المواسم"
     type: object
     list: true
@@ -44,13 +50,12 @@ content:
       - { name: "season_title", label: "عنوان الموسم", type: string }
       
       - name: "episodes"
-        label: "الحلقات"
+        label: "قائمة الحلقات"
         type: object
         list: true
         fields:
           - { name: "episode_number", label: "رقم الحلقة", type: number }
-          - { name: "episode_title", label: "عنوان الحلقة", type: string }
-          - { name: "video_url", label: "رابط الفيديو (Iframe/URL)", type: string }
-          # إضافة: صورة مصغرة لكل حلقة تعطي طابعاً احترافياً
-          - { name: "thumbnail", label: "صورة الحلقة", type: image }
+          - { name: "episode_title", label: "عنوان الحلقة (اختياري)", type: string }
+          - { name: "video_url", label: "رابط المشاهدة", type: string }
+          - { name: "thumbnail", label: "صورة مصغرة للحلقة", type: image }
           - { name: "duration", label: "مدة الحلقة", type: string }

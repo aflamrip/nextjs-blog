@@ -1,4 +1,10 @@
 {
   "title": "edw",
-  "slug": "wedw"
+  "slug": "wedw",
+  "description": "wedfwefwef",
+  "genres": [
+    {
+      "genre_tag": "comedy"
+    }
+  ]
 }

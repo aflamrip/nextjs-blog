@@ -79,6 +79,5 @@ content:
             
             fields:
               - { name: "episode_number", label: "رقم الحلقة", type: number }
-              - { name: "episode_title", label: "عنوان الحلقة", type: string }
               - { name: "video_url", label: "رابط الفيديو", type: string }
               - { name: "duration", label: "مدة الحلقة", type: string }

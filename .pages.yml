@@ -48,36 +48,38 @@ content:
                 # ... إضافة المزيد من الخيارات
 
             # حقل لإضافة الكلمات المفتاحية
-      - name: "keywords"
-        label: "الكلمات المفتاحية (Keywords)"
-        type: object
-        list: true # 🌟 يجعل هذا الحقل مصفوفة قابلة للتكرار
 
-        fields:
-          # الحقل الذي سيخزن كل كلمة مفتاحية على حدة
-          - { name: "keyword", label: "كلمة مفتاحية", type: string }
-      
-      - name: "seasons"
-        label: "المواسم"
-        type: object # لتمثيل كائن الموسم
-        list: true
-        # 💡 ملاحظة: يجب أن تضيف خاصية تجعل هذا الكائن قابل للتكرار
-        #  (على سبيل المثال، list: true أو max: 0).
-        #  سنفترض أن Pages CMS يتطلب منك ببساطة تعريف الحقول داخله.
-        
-        fields:
-          - { name: "season_number", label: "رقم الموسم", type: number }
-          - { name: "season_title", label: "عنوان الموسم", type: string }
+                - name: "keywords"
+                  label: "الكلمات المفتاحية (Keywords)"
+                  type: object
+                  list: true # 🌟 يجعل هذا الحقل مصفوفة قابلة للتكرار
           
-          # ------------------------------------------------------------
-          # 2. قائمة الحلقات (Nested Array داخل الموسم)
-          - name: "episodes"
-            label: "الحلقات"
-            type: object # لتمثيل كائن الحلقة
-            list: true
-            # 💡 هنا أيضاً نحتاج خاصية القائمة/التكرار (مثل list: true)
-            
-            fields:
-              - { name: "episode_number", label: "رقم الحلقة", type: number }
-              - { name: "video_url", label: "رابط الفيديو", type: string }
-              - { name: "duration", label: "مدة الحلقة", type: string }
+                  fields:
+                    # الحقل الذي سيخزن كل كلمة مفتاحية على حدة
+                    - { name: "keyword", label: "كلمة مفتاحية", type: string }
+                
+                - name: "seasons"
+                  label: "المواسم"
+                  type: object # لتمثيل كائن الموسم
+                  list: true
+          	# 💡 ملاحظة: يجب أن تضيف خاصية تجعل هذا الكائن قابل للتكرار
+                  #  (على سبيل المثال، list: true أو max: 0).
+                  #  سنفترض أن Pages CMS يتطلب منك ببساطة تعريف الحقول داخله.
+                  
+                  fields:
+                    - { name: "season_number", label: "رقم الموسم", type: number }
+                    - { name: "season_title", label: "عنوان الموسم", type: string }
+                    
+                    # ------------------------------------------------------------
+                    # 2. قائمة الحلقات (Nested Array داخل الموسم)
+                    - name: "episodes"
+                      label: "الحلقات"
+                      type: object # لتمثيل كائن الحلقة
+                      list: true
+                      # 💡 هنا أيضاً نحتاج خاصية القائمة/التكرار (مثل list: true)
+                      
+                      fields:
+                        - { name: "episode_number", label: "رقم الحلقة", type: number }
+                        - { name: "episode_title", label: "رقم الحلقة تلقائى", type: string }
+                        - { name: "video_url", label: "رابط الفيديو", type: string }
+                        - { name: "duration", label: "مدة الحلقة", type: string }
